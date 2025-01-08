@@ -5,7 +5,7 @@ import numpy as np
 
 EARTH_RADIUS = 6378137
 class Radar:
-    def __init__(self, longitude, latitude):
+    def __init__(self, latitude, longitude):
         self.longitude = longitude
         self.latitude = latitude
 
@@ -40,15 +40,15 @@ class RadarPoint:
 
 def lat_calculate(r: RadarPoint) -> float:
     lat_diff = math.atan((r.range*math.cos(np.radians(r.elevation))*math.cos(np.radians(r.azimuth)))/EARTH_RADIUS)
-    return lat_diff + r.radar.latitude
+    return np.degrees(lat_diff) + r.radar.latitude
 
 def lon_calculate(r: RadarPoint) -> float:
     lon_diff = math.atan((r.range*math.cos(np.radians(r.elevation))*math.sin(np.radians(r.azimuth)))/EARTH_RADIUS)
-    return lon_diff + r.radar.latitude
+    return np.degrees(lon_diff) + r.radar.longitude
 
 
 def altitude_calculate(r: RadarPoint) -> float:
-    dis_from_center = math.sqrt(EARTH_RADIUS**2 + r.elevation**2 + 2*EARTH_RADIUS*r.range*math.sin(np.radians(r.elevation)))
+    dis_from_center = math.sqrt(EARTH_RADIUS**2 + r.range**2 + 2*EARTH_RADIUS*r.range*math.sin(np.radians(r.elevation)))
     return dis_from_center - EARTH_RADIUS
 
 
