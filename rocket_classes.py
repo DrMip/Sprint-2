@@ -13,6 +13,8 @@ class Radar:
 class Point:
     def __init__(self, longitude, latitude, altitude):
         self._longitude = longitude
+        self._latitude = latitude
+        self._altitude = altitude
 
 class RadarPoint:
     def __init__(self, elevation, azimuth, r, radar):
@@ -48,7 +50,7 @@ class Rocket:
     def __init__(self, ID):
         self._ID = ID
 
-    def ID(self):
+    def get_ID(self):
         return self._ID
 
     def add_point(self, radar_point: RadarPoint) -> None:
