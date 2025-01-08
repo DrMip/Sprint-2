@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 from scipy.optimize import curve_fit
 import get_points_from_data as gp
 import pandas as pd
-import xlrd
+#import xlrd
 
 
 def excel_reader():
