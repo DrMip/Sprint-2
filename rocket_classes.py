@@ -11,17 +11,32 @@ class Radar:
         self.latitude = latitude
 
 class Point:
-    def __init__(self, longitude, latitude, altitude):
+    def __init__(self, longitude, latitude, altitude, time = None):
         self._longitude = longitude
         self._latitude = latitude
         self._altitude = altitude
+        self._time = time
+    def get_time(self):
+        return self._time
+    def get_longitude(self):
+        return self._longitude
+    def get_latitude(self):
+        return self._latitude
+    def get_altitude(self,):
+        return self._altitude
+
+
+
 
 class RadarPoint:
-    def __init__(self, elevation, azimuth, r, radar):
+    def __init__(self, elevation, azimuth, r, time, radar):
         self.elevation = elevation
         self.azimuth = azimuth
         self.range = r
         self.radar = radar
+        self.time = time
+    def get_time(self):
+        return self.time
 
 
 def lat_calculate(r: RadarPoint) -> float:
@@ -39,7 +54,7 @@ def altitude_calculate(r: RadarPoint) -> float:
 
 
 def process_point(radar_point: RadarPoint) -> Point:
-    return Point(longitude=lon_calculate(radar_point), latitude=lat_calculate(radar_point), altitude=altitude_calculate(radar_point))
+    return Point(longitude=lon_calculate(radar_point), latitude=lat_calculate(radar_point), altitude=altitude_calculate(radar_point), time=radar_point.get_time())
 
 
 class Rocket:
@@ -56,6 +71,19 @@ class Rocket:
     def add_point(self, radar_point: RadarPoint) -> None:
         self._unprocessed_locations.append(radar_point)
         self._processed_locations.append(process_point(radar_point))
+
+
+    def get_locations(self):
+        return self._processed_locations
+
+    def __str__(self):
+        string = ""
+        for point in self._processed_locations:
+            string += f"Time: {point.get_time()}, Longitude: {point.get_longitude()}, Latitude: {point.get_latitude()}, Altitude: {point.get_altitude()}\n"
+
+        return string
+
+
 
 
 
