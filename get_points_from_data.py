@@ -35,13 +35,15 @@ def num_of_rockets_in_data(data: pd.DataFrame) -> int:
 
 def get_data():
     rockets = [Rocket(0)]
-    directory = r"C:\Users\TLP-001\Documents\Intro\Sprint-2\With ID\Target bank data"
+    directory = r"With ID\Target bank data"
     for filename in os.listdir(directory) :
-         if filename.endswith(".csv") and filename.split("_")[0] == "Ashdod":
+         if filename.endswith(".csv"):
             data_file = pd.read_csv(fr"{directory}\{filename}")
             data_file.name = filename.split("_")[0]
             update_rockets(data_file, rockets)
 
     return rockets
 
+
+print(get_data()[1])
 
