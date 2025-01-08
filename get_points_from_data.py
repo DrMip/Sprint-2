@@ -18,14 +18,14 @@ radars_location = {
 
 def update_rockets(data: pd.DataFrame, rockets_list: List[Rocket]) -> None:
     nums_rockets = num_of_rockets_in_data(data)
-    print(len(rockets_list[0].get_locations()))
     if nums_rockets > len(rockets_list) - 1: # if this file has more rockets add new rockets
         for i in range(len(rockets_list), nums_rockets + 1):
             rockets_list.append(Rocket(i))
     for index, row in data.iterrows(): #add new Radar point to each
         rp = RadarPoint(row["elevation"], row["azimuth"], row["range"], row["time"], radars_location[data.name])
-
         rockets_list[int(row["ID"])].add_point(rp)
+
+    print(len(rockets_list))
 
 
 
@@ -33,14 +33,15 @@ def num_of_rockets_in_data(data: pd.DataFrame) -> int:
     id_array = data["ID"].to_numpy()
     return int(max(id_array))
 
+def get_data():
+    rockets = [Rocket(0)]
+    directory = r"C:\Users\TLP-001\Documents\Intro\Sprint-2\With ID\Target bank data"
+    for filename in os.listdir(directory) :
+         if filename.endswith(".csv") and filename.split("_")[0] == "Ashdod":
+            data_file = pd.read_csv(fr"{directory}\{filename}")
+            data_file.name = filename.split("_")[0]
+            update_rockets(data_file, rockets)
 
-rockets = [Rocket(0)]
-directory = r"C:\Users\TLP-001\Documents\Intro\Sprint-2\With ID\Impact points data"
-for filename in os.listdir(directory) :
-     if filename.endswith(".csv") and filename.split("_")[0] == "Ashdod":
-        data_file = pd.read_csv(fr"{directory}\{filename}")
-        data_file.name = filename.split("_")[0]
-        update_rockets(data_file, rockets)
+    return rockets
 
-print(rockets[1])
 
