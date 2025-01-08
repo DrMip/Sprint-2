@@ -30,13 +30,20 @@ class EcefPoint:
         return self.z
 
 if __name__ == '__main__':
-    rocket_points = get_data()[1].get_locations()
+    rocket_points : List[Point] = get_data()[1].get_locations()
     ecef_points = [EcefPoint(point) for point in rocket_points]
-    xs = [point.getX for point in ecef_points]
-    ys = [point.getY for point in ecef_points]
-    zs = [point.getZ for point in ecef_points]
+    xs = [point.getX() for point in ecef_points]
+    ys = [point.getY() for point in ecef_points]
+    zs = [point.getZ() for point in ecef_points]
+    lats = [point.get_latitude() for point in rocket_points]
+    lons = [point.get_longitude() for point in rocket_points]
+    alts = [point.get_altitude() for point in rocket_points]
     fig = plt.figure()
     ax = fig.add_subplot(projection='3d')
+    ax.scatter(lats, lons, alts)
+    ax.set_xlabel('latitude')
+    ax.set_ylabel('longitude')
+    ax.set_zlabel('altitude')
     plt.show()
 
 
