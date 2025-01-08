@@ -5,7 +5,6 @@ import numpy as np
 
 EARTH_RADIUS = 6378137
 class Radar:
-    elevation = 0
     def __init__(self, longitude, latitude):
         self.longitude = longitude
         self.latitude = latitude
@@ -59,14 +58,14 @@ def process_point(radar_point: RadarPoint) -> Point:
 
 class Rocket:
 
-    _unprocessed_locations : List[RadarPoint] = []
-    _processed_locations : List[Point] = []
-
     def __init__(self, ID):
+        self._unprocessed_locations: List[RadarPoint] = []
+        self._processed_locations: List[Point] = []
         self._ID = ID
 
     def get_ID(self):
         return self._ID
+
 
     def add_point(self, radar_point: RadarPoint) -> None:
         self._unprocessed_locations.append(radar_point)

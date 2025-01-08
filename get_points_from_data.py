@@ -18,16 +18,15 @@ radars_location = {
 
 def update_rockets(data: pd.DataFrame, rockets_list: List[Rocket]) -> None:
     nums_rockets = num_of_rockets_in_data(data)
-    print(len(rockets_list))
+    print(len(rockets_list[0].get_locations()))
     if nums_rockets > len(rockets_list) - 1: # if this file has more rockets add new rockets
         for i in range(len(rockets_list), nums_rockets + 1):
             rockets_list.append(Rocket(i))
     for index, row in data.iterrows(): #add new Radar point to each
         rp = RadarPoint(row["elevation"], row["azimuth"], row["range"], row["time"], radars_location[data.name])
 
-        rockets_list[1].add_point(rp)
-    print(len(rockets_list))
-    print(len(rockets_list[2].get_locations()))
+        rockets_list[int(row["ID"])].add_point(rp)
+
 
 
 def num_of_rockets_in_data(data: pd.DataFrame) -> int:
@@ -42,6 +41,6 @@ for filename in os.listdir(directory) :
         data_file = pd.read_csv(fr"{directory}\{filename}")
         data_file.name = filename.split("_")[0]
         update_rockets(data_file, rockets)
-# for i in range(len(rockets)):
-#     print(len(rockets[i].get_locations()))
+
+print(rockets[1])
 
